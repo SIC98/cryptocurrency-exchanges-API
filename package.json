@@ -1,0 +1,110 @@
+{
+  "name": "giraffe",
+  "engineStrict": true,
+  "version": "3.0.0",
+  "engines": {
+    "node": ">=10.15.0"
+  },
+  "author": "Jiseok Choi <jiseok@hyperithm.com>",
+  "license": "Unlicense",
+  "scripts": {
+    "start": "NODE_ENV=development onchange -i -k 'src/**/*.ts' -e 'src/**/*.test.ts' -- ts-node src",
+    "build": "tsc -p tsconfig.json",
+    "serve": "NODE_ENV=production node dist",
+    "cover": "nyc ava"
+  },
+  "dependencies": {
+    "@slack/client": "^5.0.2",
+    "@types/accounting": "^0.4.1",
+    "@types/crypto-js": "^3.1.43",
+    "@types/node-cron": "^2.0.2",
+    "@types/pako": "^1.0.1",
+    "@types/qs": "^6.9.0",
+    "@types/request-promise": "^4.1.45",
+    "@types/telebot": "^1.2.1",
+    "@types/websocket": "^1.0.0",
+    "accounting": "^0.4.1",
+    "ava": "^3.3.0",
+    "backoff-rxjs": "^6.3.3",
+    "ccxt": "^1.22.3",
+    "colors": "^1.4.0",
+    "cron": "^1.8.2",
+    "crypto": "^1.0.1",
+    "crypto-js": "^3.1.9-1",
+    "dotenv": "^8.2.0",
+    "lodash": "^4.17.15",
+    "node-cron": "^2.0.3",
+    "pako": "^1.0.11",
+    "query-string": "^6.10.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "rxjs": "^6.5.4",
+    "telebot": "^1.2.6",
+    "websocket": "^1.0.31",
+    "yenv": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.149",
+    "nyc": "^15.0.0",
+    "onchange": "^6.1.0",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.6.2",
+    "tslint": "^6.0.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-microsoft-contrib": "^6.2.0",
+    "typescript": "^3.7.2"
+  },
+  "prettier": {
+    "parser": "typescript",
+    "singleQuote": true,
+    "semi": false,
+    "trailComma": "es6",
+    "printWidth": 120
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "failFast": false,
+    "files": [
+      "test/**/*.test.ts",
+      "!node_modules/**",
+      "!dist/**"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "cache": true,
+    "compileEnhancements": false,
+    "concurrency": 8,
+    "sources": [
+      "src/**/*.ts"
+    ],
+    "verbose": true
+  },
+  "nyc": {
+    "lines": 30,
+    "reporter": [
+      "text-summary",
+      "text",
+      "lcov",
+      "html",
+      "json"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "dist/",
+      "node_modules/",
+      "test/"
+    ],
+    "cache": false,
+    "check-coverage": true,
+    "sourceMap": true,
+    "instrument": true,
+    "extension": [
+      ".ts"
+    ]
+  }
+}
