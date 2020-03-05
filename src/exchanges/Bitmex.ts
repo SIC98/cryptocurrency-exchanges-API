@@ -71,16 +71,16 @@ export class Bitmex extends BaseExchange {
       })
   }
 
-  public async getOrderbookFromMarket(marketString: string, length = 10): Promise<IOrderbook> {
-    const body = await this.ccxt.fetchOrderBook(this.buildCcxtMarketSymbol(marketString), length)
-
-    return {
-      exchangeName: this.NAME,
-      marketString: marketString,
-      timestamp: new Date(),
-      asks: this.parseOrdersData(body.asks, length),
-      bids: this.parseOrdersData(body.bids, length)
-    }
+  public getOrderbookFromMarket(marketString: string, length = 10): Promise<IOrderbook> {
+    return this.ccxt.fetchOrderBook(this.buildCcxtMarketSymbol(marketString), length).then(body => {
+      return {
+        exchangeName: this.NAME,
+        marketString: marketString,
+        timestamp: new Date(),
+        asks: this.parseOrdersData(body.asks, length),
+        bids: this.parseOrdersData(body.bids, length)
+      }
+    })
   }
 
   private parseOrdersData(orders: ccxt.OrderBook['asks'], limit: number = 30) {
@@ -96,11 +96,12 @@ export class Bitmex extends BaseExchange {
     return `${market.baseUnit.toUpperCase()}/${market.quoteUnit.toUpperCase()}`
   }
 
-  public async cancelOrder(orderId: string, marketString: string): Promise<ICancelOrderResult> {
-    await this.ccxt.cancelOrder(orderId, this.buildCcxtMarketSymbol(marketString))
-    return {
-      success: true
-    }
+  public cancelOrder(orderId: string, marketString: string): Promise<ICancelOrderResult> {
+    return this.ccxt.cancelOrder(orderId, this.buildCcxtMarketSymbol(marketString)).then(() => {
+      return {
+        success: true
+      }
+    })
   }
 
   public async placeOrder(orderParams: IOrderParams): Promise<IOrderResult> {
